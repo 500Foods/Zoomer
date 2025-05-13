@@ -1,6 +1,6 @@
 # Zoomer
 
-This repository contains a Firefox plugin that is intended to do what many others do - automatically set the zoom level based on the URL. But in this case, we're interested in setting the URL for different pages within the same domain, which doesn't seem to be a feature in the zoom plugins I've tried.
+This repository contains a Firefox plugin that is intended to do what many others do - automatically set the zoom level based on the URL. But in this case, we're interested in setting the URL for different pages within the same domain, which doesn't seem to be a feature in other zoom plugins.
 
 ## Key Dependencies
 
