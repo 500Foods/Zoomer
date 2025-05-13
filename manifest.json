@@ -1,0 +1,36 @@
+{
+  "manifest_version": 2,
+  "name": "Zoomer",
+  "version": "1.0.0",
+  "description": "Per-URL zoom level manager for Firefox",
+  
+  "icons": {
+    "48": "icons/zoomer-48.png",
+    "96": "icons/zoomer-96.png",
+    "512": "icons/zoomer-512.png"
+  },
+  
+  "permissions": [
+    "tabs",
+    "storage",
+    "<all_urls>"
+  ],
+  
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+
+  "browser_action": {
+    "default_icon": {
+      "16": "icons/zoomer-48.png",
+      "32": "icons/zoomer-48.png"
+    },
+    "default_title": "Zoomer - Per-URL Zoom"
+  },
+  
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  } 
+}

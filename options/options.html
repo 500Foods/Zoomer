@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Zoomer Settings</title>
+    <link rel="stylesheet" href="options.css">
+</head>
+<body>
+    <h1>Zoomer Settings</h1>
+    
+    <section>
+        <h2>General Settings</h2>
+        <div class="setting">
+            <label for="defaultZoom">Default Zoom Level:</label>
+            <input type="range" id="defaultZoom" min="30" max="500" value="100" step="10">
+            <span id="zoomValue">100%</span>
+        </div>
+        
+        <div class="setting">
+            <input type="checkbox" id="considerQueryParams">
+            <label for="considerQueryParams">Differentiate URLs with different query parameters</label>
+        </div>
+        
+        <div class="setting">
+            <input type="checkbox" id="considerFragments">
+            <label for="considerFragments">Differentiate URLs with different fragments</label>
+        </div>
+        
+        <div class="setting">
+            <input type="checkbox" id="workInPrivate">
+            <label for="workInPrivate">Work in private browsing mode</label>
+        </div>
+    </section>
+    
+    <section>
+        <h2>URL List Management</h2>
+        <div class="url-list-container">
+            <p>Stored URLs will appear here...</p>
+            <button id="clearAll">Clear All URLs</button>
+            <button id="export">Export List</button>
+            <button id="import">Import List</button>
+        </div>
+    </section>
+    
+    <script src="options.js"></script>
+</body>
+</html>
