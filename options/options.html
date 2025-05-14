@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <title>Zoomer Settings</title>
     <link rel="stylesheet" href="options.css">
+    <script src="../url-utils.js"></script>
+    <script src="../db-utils.js"></script>    
 </head>
 <body>
     <h1>Zoomer Settings</h1>
@@ -11,19 +13,49 @@
     <section>
         <h2>General Settings</h2>
         <div class="setting">
+            <input type="checkbox" id="debugMode">
+            <label for="debugMode">Debug Mode (enable console logging)</label>
+        </div>
+                
+        <div class="setting">
             <label for="defaultZoom">Default Zoom Level:</label>
-            <input type="range" id="defaultZoom" min="30" max="500" value="100" step="10">
+            <input type="range" id="defaultZoom" 
+                min="30" max="500" value="100" 
+                list="zoom-levels">
+            <datalist id="zoom-levels">
+                <option value="30"></option>
+                <option value="50"></option>
+                <option value="67"></option>
+                <option value="80"></option>
+                <option value="90"></option>
+                <option value="100"></option>
+                <option value="110"></option>
+                <option value="120"></option>
+                <option value="133"></option>
+                <option value="150"></option>
+                <option value="170"></option>
+                <option value="200"></option>
+                <option value="240"></option>
+                <option value="300"></option>
+                <option value="400"></option>
+                <option value="500"></option>
+            </datalist>
             <span id="zoomValue">100%</span>
         </div>
         
         <div class="setting">
-            <input type="checkbox" id="considerQueryParams">
-            <label for="considerQueryParams">Differentiate URLs with different query parameters</label>
+            <input type="checkbox" id="includePath" checked>
+            <label for="includePath">Include Path in URL matching</label>
         </div>
-        
+
         <div class="setting">
-            <input type="checkbox" id="considerFragments">
-            <label for="considerFragments">Differentiate URLs with different fragments</label>
+            <input type="checkbox" id="includeQuery">
+            <label for="includeQuery">Include Query Parameters in URL matching</label>
+        </div>
+
+        <div class="setting">
+            <input type="checkbox" id="includeFragment">
+            <label for="includeFragment">Include Fragment (hash) in URL matching</label>
         </div>
         
         <div class="setting">
@@ -31,7 +63,32 @@
             <label for="workInPrivate">Work in private browsing mode</label>
         </div>
     </section>
-    
+
+    <section>
+        <h2>Storage Settings</h2>
+        
+        <div class="setting">
+            <label for="storageLimit">Maximum URLs to store:</label>
+            <input type="range" id="storageLimit" min="1000" max="100000" step="1000" value="10000">
+            <span id="storageLimitValue">10,000 URLs</span>
+        </div>
+        
+        <div class="setting">
+            <label for="purgePercentage">Purge amount when limit reached:</label>
+            <input type="range" id="purgePercentage" min="1" max="25" step="1" value="10">
+            <span id="purgePercentageValue">10%</span>
+        </div>
+        
+        <div class="setting">
+            <button id="purgeNow">Purge oldest entries now</button>
+            <button id="purgeAll">Clear all entries</button>
+        </div>
+        
+        <div id="storageStats" class="storage-stats">
+            <p>Loading storage statistics...</p>
+        </div>
+    </section>
+
     <section>
         <h2>URL List Management</h2>
         <div class="url-list-container">

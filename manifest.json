@@ -13,11 +13,18 @@
   "permissions": [
     "tabs",
     "storage",
+    "webNavigation",
     "<all_urls>"
   ],
-  
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "zoomer@500foods.com"
+    }
+  },
+
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["url-utils.js", "db-utils.js", "background.js"],
     "persistent": false
   },
 
@@ -26,7 +33,8 @@
       "16": "icons/zoomer-48.png",
       "32": "icons/zoomer-48.png"
     },
-    "default_title": "Zoomer - Per-URL Zoom"
+    "default_title": "Zoomer - Per-URL Zoom",
+    "default_popup": "popup/popup.html"    
   },
   
   "options_ui": {

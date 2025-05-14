@@ -43,3 +43,11 @@ button {
     padding: 10px;
     margin-top: 10px;
 }
+
+.storage-stats {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
