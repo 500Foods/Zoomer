@@ -4,6 +4,9 @@ This repository contains a Firefox plugin that is intended to do what many other
 
 ## Key Dependencies
 
+- [Tabulator](https://tabulator.info/) - Used to manage list of URLs for the plugin
+- [Luxon](https://moment.github.io/luxon/#/) - Used by Tabulator for date/time handling operations
+
 ## Additional Notes
 While this project is currently under active development, feel free to give it a try and post any issues you encounter.  Or start a discussion if you would like to help steer the project in a particular direction.  Early days yet, so a good time to have your voice heard. 
 
