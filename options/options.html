@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <title>Zoomer Settings</title>
     <link rel="stylesheet" href="options.css">
+    <link rel="stylesheet" href="../lib/tabulator.min.css">
+    <script src="../lib/luxon.min.js"></script>
+    <script src="../lib/tabulator.min.js"></script>
     <script src="../url-utils.js"></script>
     <script src="../db-utils.js"></script>    
 </head>
@@ -80,6 +83,7 @@
         </div>
         
         <div class="setting">
+            <button id="refreshStats">Refresh Stats</button>            
             <button id="purgeNow">Purge oldest entries now</button>
             <button id="purgeAll">Clear all entries</button>
         </div>
@@ -91,11 +95,17 @@
 
     <section>
         <h2>URL List Management</h2>
-        <div class="url-list-container">
-            <p>Stored URLs will appear here...</p>
-            <button id="clearAll">Clear All URLs</button>
-            <button id="export">Export List</button>
-            <button id="import">Import List</button>
+        <div class="table-controls">
+            <div class="action-buttons">
+                <button id="refreshTable">Refresh</button>
+                <button id="export">Export List</button>
+                <button id="import">Import List</button>
+                <button id="clearAll">Clear All URLs</button>
+            </div>
+        </div>
+        <div id="urlTable"></div>
+        <div class="table-info">
+            <span id="tableInfo">0 entries shown</span>
         </div>
     </section>
     
