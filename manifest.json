@@ -2,11 +2,17 @@
   "manifest_version": 2,
   "name": "Zoomer",
   "version": "1.0.0",
-  "description": "Per-URL zoom level manager for Firefox",
+  "description": "Per-URL zoom level manager for Firefox - Remember and automatically apply custom zoom levels for different pages on the same website",
+  "author": "500Foods",
+  "homepage_url": "https://github.com/500Foods/Zoomer",
   
   "icons": {
+    "16": "icons/zoomer-16.png",
+    "32": "icons/zoomer-32.png",
     "48": "icons/zoomer-48.png",
+    "64": "icons/zoomer-64.png",
     "96": "icons/zoomer-96.png",
+    "128": "icons/zoomer-128.png",
     "512": "icons/zoomer-512.png"
   },
   
@@ -14,12 +20,13 @@
     "tabs",
     "storage",
     "webNavigation",
-    "<all_urls>"
+    "*://*/*"
   ],
 
   "browser_specific_settings": {
     "gecko": {
-      "id": "zoomer@500foods.com"
+      "id": "zoomer@500foods.com",
+      "strict_min_version": "57.0"
     }
   },
 
@@ -30,8 +37,9 @@
 
   "browser_action": {
     "default_icon": {
-      "16": "icons/zoomer-48.png",
-      "32": "icons/zoomer-48.png"
+      "16": "icons/zoomer-16.png",
+      "32": "icons/zoomer-32.png",
+      "48": "icons/zoomer-48.png"
     },
     "default_title": "Zoomer - Per-URL Zoom",
     "default_popup": "popup/popup.html"    

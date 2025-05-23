@@ -1,4 +1,11 @@
-// Debug logging function - only logs if debug mode is enabled
+//------------------------------------------------------------------------------
+// Utility Functions
+//------------------------------------------------------------------------------
+
+/**
+ * Debug logging function that only outputs when debug mode is enabled
+ * @param {...any} args - Arguments to log to console
+ */
 function debugLog(...args) {
     browser.storage.sync.get({ debugMode: false }).then((settings) => {
         if (settings.debugMode) {
@@ -7,7 +14,27 @@ function debugLog(...args) {
     });
 }
 
-// Store a zoom setting for the current URL
+//------------------------------------------------------------------------------
+// Constants
+//------------------------------------------------------------------------------
+
+const SPECIFICITY_SCORES = {
+    HOST: 1,        // Base score for host match
+    PATH: 10,       // Score for path match
+    QUERY: 100,     // Score for query parameters match
+    FRAGMENT: 1000  // Score for fragment match
+};
+
+//------------------------------------------------------------------------------
+// Storage Functions
+//------------------------------------------------------------------------------
+
+/**
+ * Store a zoom setting for the current URL
+ * @param {string} url - The URL to store zoom setting for
+ * @param {number} zoomLevel - The zoom level to store (decimal, e.g., 1.5 for 150%)
+ * @returns {Promise<number|null>} - The ID of the stored record, or null on error
+ */
 async function storeZoomForURL(url, zoomLevel) {
     try {
         // Parse the URL into components
@@ -109,28 +136,42 @@ async function findZoomForURL(url) {
     }
 }
 
-// Calculate specificity score for a record (higher = more specific)
+/**
+ * Calculate specificity score for a record (higher = more specific)
+ * Scoring system:
+ * - Host: 1 point (base score)
+ * - Path: 10 points
+ * - Query: 100 points
+ * - Fragment: 1000 points
+ * @param {Object} record - The zoom setting record to calculate specificity for
+ * @returns {number} - The specificity score
+ */
 function calculateSpecificity(record) {
     let specificity = 0;
     
     // Host gets base score
-    specificity += 1;
+    specificity += SPECIFICITY_SCORES.HOST;
     
     // Add score for each component
     if (record.componentMask & urlUtils.COMPONENT_PATH && record.path !== '/') {
-        specificity += 10;
+        specificity += SPECIFICITY_SCORES.PATH;
     }
     if (record.componentMask & urlUtils.COMPONENT_QUERY && record.query) {
-        specificity += 100;
+        specificity += SPECIFICITY_SCORES.QUERY;
     }
     if (record.componentMask & urlUtils.COMPONENT_FRAGMENT && record.fragment) {
-        specificity += 1000;
+        specificity += SPECIFICITY_SCORES.FRAGMENT;
     }
     
     return specificity;
 }
 
-// Check if a record matches the current URL components
+/**
+ * Check if a record matches the current URL components based on component mask
+ * @param {Object} record - The zoom setting record to check
+ * @param {Object} urlParts - The parsed URL components to match against
+ * @returns {boolean} - True if the record matches the URL components
+ */
 function matchesURL(record, urlParts) {
     // Host must always match (this should already be filtered by the DB query)
     if (record.host !== urlParts.host) {
@@ -161,7 +202,13 @@ function matchesURL(record, urlParts) {
     return true;
 }
 
-// Apply zoom to a tab
+/**
+ * Apply zoom level to a specific tab
+ * @param {number} tabId - The ID of the tab to apply zoom to
+ * @param {number} zoomLevel - The zoom level to apply (decimal, e.g., 1.5 for 150%)
+ * @param {string} [reason=""] - Optional reason for logging
+ * @returns {Promise<boolean>} - True if zoom was applied successfully
+ */
 async function applyZoomToTab(tabId, zoomLevel, reason = "") {
     try {
         await browser.tabs.setZoom(tabId, zoomLevel);
@@ -173,7 +220,12 @@ async function applyZoomToTab(tabId, zoomLevel, reason = "") {
     }
 }
 
-// Check and apply zoom for a URL
+/**
+ * Check for stored zoom setting and apply it to a tab
+ * @param {number} tabId - The ID of the tab to apply zoom to
+ * @param {string} url - The URL to find zoom setting for
+ * @returns {Promise<void>}
+ */
 async function checkAndApplyZoom(tabId, url) {
     // Look for stored zoom setting
     const storedZoom = await findZoomForURL(url);
@@ -186,7 +238,12 @@ async function checkAndApplyZoom(tabId, url) {
     }
 }
 
-// Test enhanced URL handling with specificity levels
+/**
+ * Test and log URL handling with all specificity levels
+ * Useful for debugging and understanding URL component matching
+ * @param {string} url - The URL to analyze
+ * @returns {Promise<void>}
+ */
 async function testEnhancedURLHandling(url) {
     const urlData = await urlUtils.createURLData(url);
     if (!urlData) return;
@@ -209,7 +266,14 @@ async function testEnhancedURLHandling(url) {
     debugLog("---");
 }
 
-// Listen for navigation events to detect URL changes
+//------------------------------------------------------------------------------
+// Event Listeners
+//------------------------------------------------------------------------------
+
+/**
+ * Handle navigation events to detect URL changes
+ * Applies stored zoom settings when a page loads
+ */
 browser.webNavigation.onCommitted.addListener((details) => {
     // We only care about top-level frame navigations (not iframes)
     if (details.frameId === 0) {
@@ -340,7 +404,19 @@ browser.tabs.onZoomChange.addListener((zoomChangeInfo) => {
     });
 });
 
-// Handle messages from other parts of the extension
+//------------------------------------------------------------------------------
+// Message Handling
+//------------------------------------------------------------------------------
+
+/**
+ * Handle messages from other parts of the extension
+ * Supported actions:
+ * - getCurrentZoom: Get zoom level of active tab
+ * - getDatabaseMetrics: Get storage usage statistics
+ * - purgeOldEntries: Remove oldest zoom settings
+ * - clearAllEntries: Remove all zoom settings
+ * - checkStorageLimit: Check and enforce storage limits
+ */
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "getCurrentZoom") {
         browser.tabs.query({ active: true, currentWindow: true }).then(tabs => {
@@ -398,7 +474,16 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 });
 
-// Initialize database when extension loads
+//------------------------------------------------------------------------------
+// Initialization
+//------------------------------------------------------------------------------
+
+/**
+ * Initialize the extension
+ * - Sets up the database
+ * - Checks storage limits
+ * - Logs initial metrics
+ */
 dbUtils.initDatabase().then(() => {
     debugLog("Database initialized successfully");
     
