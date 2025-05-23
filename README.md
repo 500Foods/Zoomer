@@ -157,18 +157,18 @@ While this project is currently under active development, feel free to give it a
 [![Count Lines of Code](https://github.com/500Foods/Zoomer/actions/workflows/main.yml/badge.svg)](https://github.com/500Foods/Zoomer/actions/workflows/main.yml)
 <!--CLOC-START -->
 ```
-Last updated at 2025-05-23 01:10:46 UTC
+Last updated at 2025-05-23 08:30:53 UTC
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
 JavaScript                       7            232            332           1174
 HTML                             2             14              0            132
-Markdown                         1             49              2            128
+Markdown                         1             49              2            129
 JSON                             2              6              0             50
 CSS                              2              8              1             46
 YAML                             2              8             13             35
 -------------------------------------------------------------------------------
-SUM:                            16            317            348           1565
+SUM:                            16            317            348           1566
 -------------------------------------------------------------------------------
 6 Files (without source code) were skipped
 ```
