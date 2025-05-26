@@ -72,3 +72,7 @@ modules/
 Win32/
 Win64/
 TMSWeb/
+
+
+# Project Start used to ensure we know when the project started
+.project_start
